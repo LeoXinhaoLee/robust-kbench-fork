@@ -177,3 +177,6 @@ data/
 ICLR2022-OpenReviewData/
 weights/
 mnist_cnn.pt
+
+#
+*pool*

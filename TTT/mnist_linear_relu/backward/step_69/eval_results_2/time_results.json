@@ -1,0 +1,44 @@
+{
+    "summary": {
+        "avg_mean_time": 0.11821172796562314,
+        "avg_median_time": 0.11776000261306763,
+        "avg_iqr_time": 0.002079993486404419,
+        "all_configs_str": [
+            "num_output_features_10_init_method_kaiming_num_input_features_128_batch_size_64_num_input_features_128"
+        ]
+    },
+    "eval_settings": {
+        "num_output_features_10_init_method_kaiming_num_input_features_128_batch_size_64_num_input_features_128": {
+            "mean_time": 0.11821172796562314,
+            "median_time": 0.11776000261306763,
+            "iqr_time": 0.002079993486404419
+        }
+    },
+    "device_info": {
+        "torch_version": "2.5.1+cu124",
+        "cuda_version": "12.4",
+        "cudnn_version": "90.1",
+        "num_gpus": 1,
+        "devices": {
+            "GPU_0": {
+                "name": "NVIDIA H100 80GB HBM3",
+                "compute_capability": "9.0",
+                "total_memory_GB": 79.1,
+                "multiprocessors": 132,
+                "max_threads_per_block": 1024,
+                "max_threads_per_sm": 2048,
+                "shared_memory_per_block_KB": 48.0,
+                "L2_cache_size_KB": 51200.0,
+                "memory_bus_width_bits": 5120,
+                "clock_rate_MHz": 1980.0,
+                "memory_clock_rate_MHz": 2619.0,
+                "warp_size": 32,
+                "max_blocks_per_multiprocessor": 32
+            }
+        }
+    },
+    "stdout": "Evaluated CUDA kernel: TTT/mnist_linear_relu/backward/step_69.cu\n{\n    \"summary\": {\n        \"avg_mean_time\": 0.11821172796562314,\n        \"avg_median_time\": 0.11776000261306763,\n        \"avg_iqr_time\": 0.002079993486404419,\n        \"all_configs_str\": [\n            \"num_output_features_10_init_method_kaiming_num_input_features_128_batch_size_64_num_input_features_128\"\n        ]\n    },\n    \"eval_settings\": {\n        \"num_output_features_10_init_method_kaiming_num_input_features_128_batch_size_64_num_input_features_128\": {\n            \"mean_time\": 0.11821172796562314,\n            \"median_time\": 0.11776000261306763,\n            \"iqr_time\": 0.002079993486404419\n        }\n    },\n    \"device_info\": {\n        \"torch_version\": \"2.5.1+cu124\",\n        \"cuda_version\": \"12.4\",\n        \"cudnn_version\": \"90.1\",\n        \"num_gpus\": 1,\n        \"devices\": {\n            \"GPU_0\": {\n                \"name\": \"NVIDIA H100 80GB HBM3\",\n                \"compute_capability\": \"9.0\",\n                \"total_memory_GB\": 79.1,\n                \"multiprocessors\": 132,\n                \"max_threads_per_block\": 1024,\n                \"max_threads_per_sm\": 2048,\n                \"shared_memory_per_block_KB\": 48.0,\n                \"L2_cache_size_KB\": 51200.0,\n                \"memory_bus_width_bits\": 5120,\n                \"clock_rate_MHz\": 1980.0,\n                \"memory_clock_rate_MHz\": 2619.0,\n                \"warp_size\": 32,\n                \"max_blocks_per_multiprocessor\": 32\n            }\n        }\n    }\n}\n",
+    "stderr": "Using /home/yusu/.cache/torch_extensions/py311_cu124 as PyTorch extensions root...\nDetected CUDA files, patching ldflags\nEmitting ninja build file /home/yusu/.cache/torch_extensions/py311_cu124/mnist_linear_relu/build.ninja...\n/lustre/fs1/portfolios/nvr/projects/nvr_lacr_llm/users/yusu/miniconda3/envs/rkb_official/lib/python3.11/site-packages/torch/utils/cpp_extension.py:1964: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. \nIf this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].\n  warnings.warn(\nBuilding extension module mnist_linear_relu...\nAllowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)\nLoading extension module mnist_linear_relu...\n",
+    "nvcc_output": "1.13.0.git.kitware.jobserver-pipe-1\n\n12.4.0\n\nninja: no work to do.\n",
+    "cuda_fname": "TTT/mnist_linear_relu/backward/step_69.cu"
+}

@@ -171,6 +171,12 @@ def eval_cuda_kernel(
         f"EVALUATE - START - {OP_TYPE} => CUDA code {cuda_code_print} - {eval_type}..."
     )
     start_time = time.time()
+    
+    # @xh: added to be consistent as correct_cuda_kernel    
+    unique_id = str(uuid.uuid4())[:8]
+    ext_dir = os.path.join(tempfile.gettempdir(), f"torch_extensions_{unique_id}")
+    os.makedirs(ext_dir, exist_ok=True)
+    
     cuda_results = cuda_eval(
         task_dir=task_dir,
         cuda_fname=cuda_code_path,

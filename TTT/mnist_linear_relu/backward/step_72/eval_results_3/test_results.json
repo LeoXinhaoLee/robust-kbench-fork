@@ -1,0 +1,9 @@
+{
+    "summary": {
+        "correct": false,
+        "error": "CUDA kernel terminated abnormally. Potentially due to illegal memory access."
+    },
+    "cuda_fname": "TTT/mnist_linear_relu/backward/step_72.cu",
+    "stdout": "",
+    "stderr": "CUDA kernel terminated abnormally. Potentially due to illegal memory access."
+}
