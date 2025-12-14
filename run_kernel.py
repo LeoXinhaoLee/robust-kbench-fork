@@ -22,6 +22,7 @@ def parse_args():
     parser.add_argument("--multi_input_settings", type=bool, default=False)
     parser.add_argument("--timeout", type=int, default=600)
     parser.add_argument("--backward", action="store_true")
+    parser.add_argument("--temp_suffix", type=str, default="")  # @xh: allow multiple runs of the same task to happen at the same time (on diff nodes)
     args = parser.parse_args()
     return args
 
@@ -39,6 +40,7 @@ torch_results, torch_compile_results = eval_torch_runtime(
     ext_dir=os.path.expanduser("~/.cache/torch_extensions/py311_cu124"),
     forward=not args.backward,
     debug=False,
+    temp_suffix=args.temp_suffix,
 )
 
 # correct_results = correct_cuda_kernel(
@@ -70,6 +72,7 @@ if True:
         multi_input_settings=args.multi_input_settings,
         timeout=args.timeout,
         forward=not args.backward,
+        temp_suffix=args.temp_suffix,
     )
     print(f"==> Evaluation results: {args.task_dir}")
     print(f"    --- CUDA file: {args.cuda_code_path}")

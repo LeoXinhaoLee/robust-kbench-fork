@@ -95,6 +95,7 @@ def torch_eval(
     debug: bool = False,
     forward: bool = True,
     config_fname: Optional[str] = None,
+    temp_suffix: str = ""        
 ) -> dict:
     """Evaluates a single CUDA kernel file on a specific GPU."""
     os_env = get_os_env(gpu_id, ext_dir)
@@ -114,6 +115,8 @@ def torch_eval(
         "--eval_type",
         eval_type,
         "--store_results",
+        "--temp_suffix",
+        temp_suffix,
     ]
     # Add whether to run with multiple init and eval settings
     if multi_init_settings:
@@ -142,11 +145,11 @@ def torch_eval(
         print(f"Error evaluating torch: {e}")
         return None
 
-    eval_dir = os.path.join(task_dir, "eval_results")
     if forward:
-        eval_dir = os.path.join(eval_dir, "forward")
+        eval_dir = os.path.join(task_dir, "forward", "eval_results" + temp_suffix)
     else:
-        eval_dir = os.path.join(eval_dir, "backward")
+        eval_dir = os.path.join(task_dir, "backward", "eval_results" + temp_suffix)
+    
     if compile:
         results_path = os.path.join(eval_dir, "torch_compile_results.json")
     else:
@@ -168,6 +171,7 @@ def cuda_compile(
     ext_dir: str = os.path.expanduser("~/.cache/torch_extensions/py311_cu124"),
     timeout: int = 300,
     debug: bool = False,
+    temp_suffix: str = "",
 ) -> dict:
     """Compiles a single CUDA kernel file."""
     os_env = get_os_env(gpu_id, ext_dir, cuda_compile=True)
@@ -179,6 +183,8 @@ def cuda_compile(
         "--filename",
         cuda_fname,
         "--store_results",
+        "--temp_suffix",
+        temp_suffix,
     ]
     try:
         exec_command(
@@ -188,7 +194,7 @@ def cuda_compile(
             debug=debug,
         )
         # Load results from json file
-        eval_dir = os.path.join(os.path.dirname(cuda_fname), "eval_results")
+        eval_dir = os.path.join(os.path.dirname(cuda_fname), "eval_results" + temp_suffix)
         results_path = os.path.join(eval_dir, "compile_results.json")
         # Check if file exists
         if not os.path.exists(results_path):
@@ -217,6 +223,7 @@ def cuda_correct(
     debug: bool = False,
     forward: bool = True,
     config_fname: Optional[str] = None,
+    temp_suffix: str = "",
 ) -> Union[dict, None]:
     """Tests a single CUDA kernel file."""
     os_env = get_os_env(gpu_id, ext_dir, cuda_correct=True)
@@ -238,6 +245,8 @@ def cuda_correct(
         "--num_correct_trials",
         str(num_correct_trials),
         "--store_results",
+        "--temp_suffix",
+        temp_suffix,
     ]
     # Add whether to run with multiple init and eval settings
     if multi_init_settings:
@@ -257,7 +266,7 @@ def cuda_correct(
             debug=debug,
         )
         # Load results from json file
-        eval_dir = os.path.join(os.path.dirname(cuda_fname), "eval_results")
+        eval_dir = os.path.join(os.path.dirname(cuda_fname), "eval_results" + temp_suffix)
         results_path = os.path.join(eval_dir, "test_results.json")
 
         # Check if file exists
@@ -300,6 +309,7 @@ def cuda_eval(
     debug: bool = False,
     forward: bool = True,
     config_fname: Optional[str] = None,
+    temp_suffix: str = "",
 ) -> Union[dict, None]:
     """Evaluates a single CUDA kernel file on a specific GPU."""
     os_env = get_os_env(gpu_id, ext_dir)
@@ -321,6 +331,8 @@ def cuda_eval(
         "--eval_type",
         eval_type,
         "--store_results",
+        "--temp_suffix",
+        temp_suffix,
     ]
     # Add whether to run with multiple init and eval settings
     if multi_init_settings:
@@ -340,7 +352,7 @@ def cuda_eval(
             debug=debug,
         )
         # Load results from json file
-        eval_dir = os.path.join(os.path.dirname(cuda_fname), "eval_results")
+        eval_dir = os.path.join(os.path.dirname(cuda_fname), "eval_results" + temp_suffix)
         results_path = os.path.join(eval_dir, "time_results.json")
 
         # Check if file exists

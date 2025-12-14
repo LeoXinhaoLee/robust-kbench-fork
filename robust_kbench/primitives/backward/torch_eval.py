@@ -115,6 +115,7 @@ if __name__ == "__main__":
     parser.add_argument("--multi_input_settings", action="store_true")
     parser.add_argument("--config_fname", default=None, type=str)
     parser.add_argument("--store_results", action="store_true")
+    parser.add_argument("--temp_suffix", type=str, default="")
     args = parser.parse_args()
 
     task = KernelTask(
@@ -148,7 +149,7 @@ if __name__ == "__main__":
 
         if args.store_results:
             # Store results in filename_dir/filename_base.json
-            eval_dir = os.path.join(args.task_dir, "eval_results", "backward")
+            eval_dir = os.path.join(args.task_dir, "backward", "eval_results" + args.temp_suffix)
             # make eval_dir if it doesn't exist
             os.makedirs(eval_dir, exist_ok=True)
             with open(os.path.join(eval_dir, "torch_native_results.json"), "w") as f:
@@ -168,7 +169,7 @@ if __name__ == "__main__":
 
         if args.store_results:
             # Store results in filename_dir/filename_base.json
-            eval_dir = os.path.join(args.task_dir, "eval_results", "backward")
+            eval_dir = os.path.join(args.task_dir, "backward", "eval_results" + args.temp_suffix)
             # make eval_dir if it doesn't exist
             os.makedirs(eval_dir, exist_ok=True)
             with open(os.path.join(eval_dir, "torch_compile_results.json"), "w") as f:

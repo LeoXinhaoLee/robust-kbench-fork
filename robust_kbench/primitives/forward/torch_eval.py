@@ -1,3 +1,4 @@
+from tempfile import tempdir
 from typing import Dict, Callable
 import os
 import torch
@@ -124,6 +125,7 @@ if __name__ == "__main__":
     parser.add_argument("--config_fname", default=None, type=str)
     parser.add_argument("--precision", default="fp32", choices=["fp32", "tf32"], type=str)
     parser.add_argument("--store_results", action="store_true")
+    parser.add_argument("--temp_suffix", type=str, default="")
     args = parser.parse_args()
     
     # Set the torch precision
@@ -172,7 +174,7 @@ if __name__ == "__main__":
 
         if args.store_results:
             # Store results in filename_dir/filename_base.json
-            eval_dir = os.path.join(args.task_dir, "eval_results", "forward")
+            eval_dir = os.path.join(args.task_dir, "forward", "eval_results" + args.temp_suffix)
             # make eval_dir if it doesn't exist
             os.makedirs(eval_dir, exist_ok=True)
             with open(os.path.join(eval_dir, "torch_native_results.json"), "w") as f:
@@ -192,7 +194,7 @@ if __name__ == "__main__":
 
         if args.store_results:
             # Store results in filename_dir/filename_base.json
-            eval_dir = os.path.join(args.task_dir, "eval_results", "forward")
+            eval_dir = os.path.join(args.task_dir, "forward", "eval_results" + args.temp_suffix)
             # make eval_dir if it doesn't exist
             os.makedirs(eval_dir, exist_ok=True)
             with open(os.path.join(eval_dir, "torch_compile_results.json"), "w") as f:

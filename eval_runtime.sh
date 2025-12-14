@@ -14,13 +14,23 @@ export LIBRARY_PATH="$CONDA_PREFIX/lib:$CONDA_PREFIX/targets/${linux_platform}-l
 export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$CONDA_PREFIX/targets/${linux_platform}-linux/lib:${LD_LIBRARY_PATH:-}"
 
 
-node=$(hostname)
+## EOS need
+export CUDAHOSTCXX=$(which g++)
+export CXX=$CUDAHOSTCXX
+export CC=$(which gcc)
+##
 
+
+node=$(hostname)
 
 # tasks=(mnist_linear_relu mnist_cross_entropy resnet_block)
 # modes=(backward forward forward)
-tasks=(resnet_block)
-modes=(forward)
+# tasks=(resnet_block)
+# modes=(forward)
+
+tasks=(layernorm llama_ffw llama_rmsnorm mnist_conv_relu_pool mnist_linear mnist_linear_relu mnist_cross_entropy mnist_linear mnist_pool)
+modes=(forward forward forward forward forward forward backward backward backward)
+
 
 for i in "${!tasks[@]}"; do
 
@@ -34,20 +44,22 @@ for i in "${!tasks[@]}"; do
         python run_kernel.py \
           --task_dir tasks/${task} \
           --cuda_code_path highlighted/${task}/${mode}/kernel.cu \
-          --backward
+          --backward \
+          --temp_suffix "_${node}"
       else
         python run_kernel.py \
           --task_dir tasks/${task} \
-          --cuda_code_path highlighted/${task}/${mode}/kernel.cu
+          --cuda_code_path highlighted/${task}/${mode}/kernel.cu \
+          --temp_suffix "_${node}"
       fi
 
-      mkdir -p tasks/${task}/${node}
-      mv tasks/${task}/eval_results \
-         tasks/${task}/${node}/eval_results_${i}
+      mkdir -p tasks/${task}/${mode}/${node}
+      mv tasks/${task}/${mode}/eval_results_${node} \
+         tasks/${task}/${mode}/${node}/eval_results_${i}
 
       mkdir -p highlighted/${task}/${mode}/${node}
-      mv highlighted/${task}/${mode}/eval_results \
-        highlighted/${task}/${mode}/${node}/eval_results_${i}
+      mv highlighted/${task}/${mode}/eval_results_${node} \
+         highlighted/${task}/${mode}/${node}/eval_results_${i}
 
   done    
 

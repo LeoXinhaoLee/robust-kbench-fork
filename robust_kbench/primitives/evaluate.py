@@ -26,6 +26,7 @@ def eval_torch_runtime(
     debug: bool = False,
     forward: bool = True,
     config_fname: Optional[str] = None,
+    temp_suffix: str = "",
 ):
     start_time = time.time()
     OP_TYPE = "FORWARD" if forward else "BACKWARD"
@@ -45,6 +46,7 @@ def eval_torch_runtime(
         debug=debug,
         forward=forward,
         config_fname=config_fname,
+        temp_suffix=temp_suffix,
     )
     graceful_eval_cleanup()
     end_time = time.time()
@@ -68,6 +70,7 @@ def eval_torch_runtime(
         debug=debug,
         forward=forward,
         config_fname=config_fname,
+        temp_suffix=temp_suffix,
     )
     graceful_eval_cleanup()
     end_time = time.time()
@@ -84,6 +87,7 @@ def compile_cuda_kernel(
     ext_dir: str = os.path.expanduser("~/.cache/torch_extensions/py311_cu124"),
     timeout: int = 300,
     debug: bool = False,
+    temp_suffix: str = "",
 ):
     start_time = time.time()
     cuda_code_print = "/".join(cuda_code_path.split("/")[-3:])
@@ -95,6 +99,7 @@ def compile_cuda_kernel(
         ext_dir=ext_dir,
         timeout=timeout,
         debug=debug,
+        temp_suffix=temp_suffix,
     )
     graceful_eval_cleanup()
     end_time = time.time()
@@ -118,6 +123,7 @@ def correct_cuda_kernel(
     debug: bool = False,
     forward: bool = True,
     config_fname: Optional[str] = None,
+    temp_suffix: str = "",
 ):
     start_time = time.time()
     unique_id = str(uuid.uuid4())[:8]
@@ -141,6 +147,7 @@ def correct_cuda_kernel(
         debug=debug,
         forward=forward,
         config_fname=config_fname,
+        temp_suffix=temp_suffix,
     )
     end_time = time.time()
     print(
@@ -164,6 +171,7 @@ def eval_cuda_kernel(
     debug: bool = False,
     forward: bool = True,
     config_fname: Optional[str] = None,
+    temp_suffix: str = "",
 ):
     cuda_code_print = "/".join(cuda_code_path.split("/")[-3:])
     OP_TYPE = "FORWARD" if forward else "BACKWARD"
@@ -191,6 +199,7 @@ def eval_cuda_kernel(
         debug=debug,
         forward=forward,
         config_fname=config_fname,
+        temp_suffix=temp_suffix
     )
     end_time = time.time()
     print(
